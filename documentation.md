@@ -249,3 +249,15 @@ git fetch -p
 #Verify Repository Integrity
 git fsck --full
 ```
+
+## `git log` 📁
+
+The git log will show an history of all the commits in the repository
+
+```bash
+# Show all the logs of the repo
+git log
+
+# Show all the log in a graph
+git log --graph --all --decorate
+```
