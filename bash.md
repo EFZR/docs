@@ -175,4 +175,34 @@ Si la conexión no funciona correctamente, puedes reiniciar el servicio de red:
 ```bash
 sudo systemctl restart NetworkManager
 ```  
+--
 
+## 🔧 Hacer un dispositivo booteable con `dd`
+
+1. Crear un dispositivo booteable con una imagen ISO
+
+Para crear un dispositivo booteable (por ejemplo, para una instalación de Linux) con una imagen .iso en una unidad USB, usa el comando dd. Asegúrate de reemplazar /dev/sdX con el dispositivo correcto (por ejemplo, /dev/sdb) y path/to/image.iso con la ubicación de tu archivo ISO.
+
+```bash
+sudo dd if=/path/to/image.iso of=/dev/sdX bs=4M status=progress && sync
+```
+
+> 📌 Nota: El comando dd sobrescribirá todo en el dispositivo de destino, así que asegúrate de que estás eligiendo la unidad correcta.
+
+2. Verificar que el dispositivo sea booteable
+
+Después de crear el dispositivo booteable, puedes verificar que esté listo para arrancar revisando la tabla de particiones con:
+
+```bash
+sudo fdisk -l /dev/sdX
+```
+
+--
+
+## 🧹 Limpiar una tarjeta SD con `dd`
+
+Si deseas limpiar completamente una tarjeta SD o una unidad USB (es decir, sobrescribir todos sus datos), puedes usar dd para llenar el dispositivo con ceros. Este proceso eliminará permanentemente todos los datos en la unidad.
+
+```bash
+sudo dd if=/dev/zero of=/dev/sdX bs=4M status=progress && sync
+```
