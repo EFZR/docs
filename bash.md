@@ -206,3 +206,128 @@ Si deseas limpiar completamente una tarjeta SD o una unidad USB (es decir, sobre
 ```bash
 sudo dd if=/dev/zero of=/dev/sdX bs=4M status=progress && sync
 ```
+
+--
+
+## ⚙️ Gestionar procesos en Linux
+
+### 1. 👀 Ver procesos en ejecución
+
+Para ver los procesos en ejecución en tu sistema, puedes usar el comando `ps`. Para una lista más detallada de los procesos, puedes usar:
+
+```bash
+ps aux
+```
+
+Este comando muestra una lista completa de todos los procesos que se están ejecutando en el sistema, junto con información como el usuario que ejecuta el proceso, el uso de CPU y memoria, y el comando que inició el proceso.
+
+### 2. 🔄 Ver procesos en tiempo real
+
+Si deseas ver los procesos en tiempo real y cómo cambian en el sistema, puedes usar el comando `top`:
+
+```bash
+top
+```
+
+Este comando muestra los procesos más intensivos en recursos de CPU y memoria. Puedes actualizar la información en tiempo real presionando `q` para salir del comando.
+
+### 3. 🔍 Buscar un proceso específico
+
+Si necesitas buscar un proceso en específico, puedes usar `grep` con el comando `ps`. Por ejemplo, para buscar todos los procesos relacionados con "firefox", usa:
+
+```bash
+ps aux | grep firefox
+```
+
+### 4. ❌ Matar un proceso
+
+Si necesitas terminar un proceso que está funcionando de manera incorrecta o que ya no necesitas, puedes usar el comando `kill`. Para matar un proceso, primero debes conocer su PID (ID del proceso), que puedes obtener con:
+
+```bash
+ps aux | grep nombre_del_proceso
+```
+
+Luego, usa el siguiente comando para matar el proceso:
+
+```bash
+kill PID
+```
+
+Si el proceso no se detiene, puedes forzar el cierre usando:
+
+```bash
+kill -9 PID
+```
+
+> 📌 **Nota:** Ten cuidado al matar procesos, ya que podrías terminar procesos del sistema que afecten la estabilidad.
+
+### 5. ⚙️ Priorizar procesos (cambiar la prioridad de un proceso)
+
+Puedes cambiar la prioridad de un proceso en ejecución con el comando `renice`. Por ejemplo, si deseas cambiar la prioridad de un proceso con PID `1234` a `10`, usa:
+
+```bash
+sudo renice 10 -p 1234
+```
+
+> 📌 **Nota:** Los valores de prioridad van de -20 (máxima prioridad) a 19 (baja prioridad). Los usuarios con privilegios de root pueden asignar prioridades más altas a los procesos.
+
+### 6. 📊 Ver el uso de recursos por proceso
+
+Para ver un resumen del uso de recursos del sistema, incluyendo la CPU y la memoria, puedes usar el comando `htop` (si está instalado). `htop` proporciona una interfaz más amigable que `top` y te permite interactuar con los procesos (matar, reniciar, etc.).
+
+```bash
+htop
+```
+
+> 📌 **Nota:** Si no tienes `htop` instalado, puedes instalarlo con:
+
+```bash
+sudo apt install htop  # Para distribuciones basadas en Debian/Ubuntu
+```
+
+### 7. 🔌 Matar un proceso por su número de puerto
+
+Si deseas matar un proceso que está utilizando un puerto específico, puedes seguir estos pasos:
+
+#### 1. Encontrar el proceso que usa el puerto
+
+Primero, usa el comando `netstat` para encontrar el PID del proceso que está usando un puerto específico. Por ejemplo, si quieres buscar el proceso que usa el puerto `8080`, puedes usar:
+
+```bash
+sudo netstat -tulpn | grep :8080
+```
+
+Este comando te mostrará una línea con información sobre el puerto y el PID del proceso que lo está utilizando. La salida será algo similar a:
+
+```
+tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      1234/python
+```
+
+En este ejemplo, el PID del proceso es `1234`.
+
+#### 2. Matar el proceso usando el PID
+
+Una vez que hayas obtenido el PID del proceso, puedes usar el comando `kill` para detenerlo. Si el PID de tu proceso es, por ejemplo, `1234`, puedes usar:
+
+```bash
+sudo kill 1234
+```
+
+Si el proceso no se detiene, puedes forzar el cierre utilizando la señal `-9`:
+
+```bash
+sudo kill -9 1234
+```
+
+#### 3. Verificar que el puerto esté libre
+
+Después de matar el proceso, puedes verificar si el puerto ya está libre ejecutando nuevamente el comando `netstat`:
+
+```bash
+sudo netstat -tulpn | grep :8080
+```
+
+Si no hay salida, significa que el puerto ya está libre.
+
+> 📌 **Nota:** Asegúrate de tener cuidado al matar procesos, especialmente si son procesos del sistema, ya que podrías afectar la estabilidad del sistema.
+
