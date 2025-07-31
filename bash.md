@@ -184,7 +184,7 @@ sudo systemctl restart NetworkManager
 Para crear un dispositivo booteable (por ejemplo, para una instalación de Linux) con una imagen .iso en una unidad USB, usa el comando dd. Asegúrate de reemplazar /dev/sdX con el dispositivo correcto (por ejemplo, /dev/sdb) y path/to/image.iso con la ubicación de tu archivo ISO.
 
 ```bash
-sudo dd if=/path/to/image.iso of=/dev/sdX bs=4M status=progress && sync
+dd bs=4M if=path/to/image.iso of=/dev/disk/by-id/usb-My_flash_drive conv=fsync oflag=direct status=progress
 ```
 
 > 📌 Nota: El comando dd sobrescribirá todo en el dispositivo de destino, así que asegúrate de que estás eligiendo la unidad correcta.
