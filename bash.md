@@ -331,3 +331,136 @@ Si no hay salida, significa que el puerto ya está libre.
 
 > 📌 **Nota:** Asegúrate de tener cuidado al matar procesos, especialmente si son procesos del sistema, ya que podrías afectar la estabilidad del sistema.
 
+
+---
+
+## 👤 Gestión de usuarios y permisos de archivos
+
+En Linux, cada archivo y directorio tiene un propietario y un grupo asignado, así como permisos que determinan quién puede leerlo, escribirlo o ejecutarlo.
+
+---
+
+### 1. 📌 Ver propietario y permisos de un archivo
+
+```bash
+ls -l archivo.txt
+```
+
+Salida de ejemplo:
+
+```
+-rw-r--r-- 1 usuario grupo 1234 ago 13 16:00 archivo.txt
+```
+
+* `usuario` → propietario del archivo
+* `grupo` → grupo al que pertenece el archivo
+* `rw-` → permisos para el propietario
+* `r--` → permisos para el grupo
+* `r--` → permisos para otros usuarios
+
+---
+
+### 2. 🔄 Cambiar el propietario de un archivo o carpeta (`chown`)
+
+#### Cambiar propietario:
+
+```bash
+sudo chown nuevo_usuario archivo.txt
+```
+
+#### Cambiar propietario y grupo al mismo tiempo:
+
+```bash
+sudo chown nuevo_usuario:nuevo_grupo archivo.txt
+```
+
+#### Cambiar de forma recursiva (carpetas y contenido):
+
+```bash
+sudo chown -R nuevo_usuario:nuevo_grupo /ruta/a/carpeta
+```
+
+---
+
+### 3. 🛡 Cambiar permisos de un archivo o carpeta (`chmod`)
+
+Los permisos se representan con letras o números:
+
+* `r` → lectura (4)
+* `w` → escritura (2)
+* `x` → ejecución (1)
+
+#### Usando letras:
+
+```bash
+chmod u+x script.sh     # Agregar permiso de ejecución al propietario
+chmod g-w archivo.txt   # Quitar permiso de escritura al grupo
+chmod o-r archivo.txt   # Quitar permiso de lectura a otros usuarios
+```
+
+#### Usando números:
+
+```bash
+chmod 755 script.sh
+```
+
+> 📌 Ejemplo: `755` significa:
+>
+> * Propietario: lectura + escritura + ejecución (7)
+> * Grupo: lectura + ejecución (5)
+> * Otros: lectura + ejecución (5)
+
+---
+
+### 4. 👥 Gestionar usuarios (`useradd`, `usermod`, `passwd`)
+
+#### Crear un nuevo usuario:
+
+```bash
+sudo useradd -m nuevo_usuario
+```
+
+#### Asignar una contraseña al usuario:
+
+```bash
+sudo passwd nuevo_usuario
+```
+
+#### Agregar usuario a un grupo:
+
+```bash
+sudo usermod -aG grupo nuevo_usuario
+```
+
+#### Ver a qué grupos pertenece un usuario:
+
+```bash
+groups usuario
+```
+
+---
+
+### 5. 🗑 Eliminar un usuario
+
+```bash
+sudo userdel usuario
+```
+
+Si quieres eliminar también su carpeta personal:
+
+```bash
+sudo userdel -r usuario
+```
+
+---
+
+📌 **Consejo de seguridad:**
+
+* Usa `chown` y `chmod` con cuidado para no dar permisos excesivos.
+* No elimines usuarios del sistema sin confirmar que no son necesarios para servicios críticos.
+
+---
+
+Si quieres, puedo insertarlo **en el documento original justo después de la sección de "Gestionar procesos en Linux"** para mantener la coherencia. Así no se rompe el flujo de los temas y queda ordenado.
+
+¿Quieres que lo integre directamente en el texto final completo?
